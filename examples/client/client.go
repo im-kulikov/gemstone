@@ -5,14 +5,14 @@ import (
 	"os"
 	"time"
 
-	"github.com/cryptopay-dev/gemstone"
-	proto "github.com/cryptopay-dev/gemstone/examples/proto"
+	"github.com/im-kulikov/hermione"
+	proto "github.com/im-kulikov/hermione/examples/proto"
 	"golang.org/x/net/context"
 )
 
 func main() {
 	// Create a new service. Optionally include some options here.
-	service, err := gemstone.NewService()
+	service, err := hermione.NewService()
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(1)
@@ -24,7 +24,11 @@ func main() {
 		fmt.Println(err)
 		os.Exit(1)
 	}
-	defer client.Close()
+	defer func() {
+		if closeErr := client.Close(); closeErr != nil {
+			fmt.Printf("Closing server listener error: %v\n", closeErr)
+		}
+	}()
 
 	greeter := proto.NewGreeterClient(client)
 

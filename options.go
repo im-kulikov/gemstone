@@ -1,9 +1,9 @@
-package gemstone
+package hermione
 
 import (
-	"github.com/cryptopay-dev/gemstone/logger"
-	"github.com/cryptopay-dev/gemstone/logger/zap"
-	"github.com/cryptopay-dev/gemstone/registry"
+	"github.com/im-kulikov/hermione/logger"
+	"github.com/im-kulikov/hermione/logger/zap"
+	"github.com/im-kulikov/hermione/registry"
 )
 
 type Options struct {

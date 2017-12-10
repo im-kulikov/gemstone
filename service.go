@@ -1,4 +1,4 @@
-package gemstone
+package hermione
 
 import (
 	"errors"
@@ -9,10 +9,10 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/cryptopay-dev/gemstone/internal"
-	"github.com/cryptopay-dev/gemstone/logger"
-	"github.com/cryptopay-dev/gemstone/registry"
-	"github.com/cryptopay-dev/gemstone/registry/consul"
+	"github.com/im-kulikov/hermione/internal"
+	"github.com/im-kulikov/hermione/logger"
+	"github.com/im-kulikov/hermione/registry"
+	"github.com/im-kulikov/hermione/registry/consul"
 	"github.com/satori/go.uuid"
 	"google.golang.org/grpc"
 )
@@ -65,7 +65,10 @@ func (s *DefaultService) Run() error {
 
 	defer func() {
 		s.server.GracefulStop()
-		listener.Close()
+		if err = listener.Close(); err != nil {
+			s.options.Logger.Errorf("Closing server listener error: %v", err)
+			return
+		}
 		s.options.Logger.Info("Closing server listener")
 	}()
 
@@ -112,7 +115,7 @@ func (s *DefaultService) Run() error {
 	// Catching sigterm and process them
 	go func() {
 		ch := make(chan os.Signal, 1)
-		signal.Notify(ch, syscall.SIGTERM, syscall.SIGINT, syscall.SIGKILL, syscall.SIGQUIT)
+		signal.Notify(ch, syscall.SIGTERM, syscall.SIGINT, syscall.SIGQUIT)
 
 		sig := <-ch
 		s.options.Logger.Infof("Received signal %s", sig)
@@ -121,11 +124,8 @@ func (s *DefaultService) Run() error {
 	}()
 
 	<-stop
-	if err := s.options.Registry.Deregister(s.service); err != nil {
-		return err
-	}
 
-	return nil
+	return s.options.Registry.Deregister(s.service)
 }
 
 func (s *DefaultService) register() error {
@@ -143,7 +143,9 @@ func (s *DefaultService) run(exit chan struct{}) {
 	for {
 		select {
 		case <-t.C:
-			s.register()
+			if err := s.register(); err != nil {
+				s.Logger().Error(err)
+			}
 		case <-exit:
 			t.Stop()
 			return

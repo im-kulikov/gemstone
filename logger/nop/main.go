@@ -1,7 +1,7 @@
 package nop
 
 import (
-	"github.com/cryptopay-dev/gemstone/logger"
+	"github.com/im-kulikov/hermione/logger"
 )
 
 type Logger struct{}

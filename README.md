@@ -1,9 +1,11 @@
-# 💎 Gemstone 
+![Hermione Granger](./github/image.jpg)
+
+# Hermione
 > Go microservice framework 
 
 ## Installation
 ```bash
-go get -u github.com/cryptopay-dev/gemstone
+go get -u github.com/im-kulikov/hermione
 ```
 
 ## Usage
@@ -16,8 +18,8 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/cryptopay-dev/gemstone"
-	proto "github.com/cryptopay-dev/gemstone/examples/proto"
+	"github.com/im-kulikov/hermione"
+	proto "github.com/im-kulikov/hermione/examples/proto"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc/reflection"
 )
@@ -63,8 +65,8 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/cryptopay-dev/gemstone"
-	proto "github.com/cryptopay-dev/gemstone/examples/proto"
+	"github.com/im-kulikov/hermione"
+	proto "github.com/im-kulikov/hermione/examples/proto"
 	"golang.org/x/net/context"
 )
 
@@ -82,7 +84,11 @@ func main() {
 		fmt.Println(err)
 		os.Exit(1)
 	}
-	defer client.Close()
+	defer func() {
+		if closeErr := client.Close(); closeErr != nil {
+			fmt.Printf("Closing server listener error: %v\n", closeErr)
+		}
+	}()
 
 	greeter := proto.NewGreeterClient(client)
 

@@ -71,5 +71,5 @@ func Extract(addr string) (string, error) {
 		return "", fmt.Errorf("no private IP address found, and explicit IP not provided")
 	}
 
-	return net.IP(ipAddr).String(), nil
+	return ipAddr.String(), nil
 }

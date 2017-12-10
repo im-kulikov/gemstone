@@ -5,8 +5,8 @@ import (
 	"sync"
 	"time"
 
-	"github.com/cryptopay-dev/gemstone/registry"
 	"github.com/hashicorp/consul/api"
+	"github.com/im-kulikov/hermione/registry"
 	"github.com/mitchellh/hashstructure"
 )
 
@@ -48,11 +48,11 @@ func (r *Registry) Register(s registry.Service) error {
 
 	// TTL of service
 	splay := time.Second * 5
-	deregTTL := time.Minute + splay
+	deregisterTTL := time.Minute + splay
 
 	check := &api.AgentServiceCheck{
 		TTL: fmt.Sprintf("%v", time.Minute),
-		DeregisterCriticalServiceAfter: fmt.Sprintf("%v", deregTTL),
+		DeregisterCriticalServiceAfter: fmt.Sprintf("%v", deregisterTTL),
 	}
 
 	if err := r.client.Agent().ServiceRegister(&api.AgentServiceRegistration{

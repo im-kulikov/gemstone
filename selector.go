@@ -1,4 +1,4 @@
-package gemstone
+package hermione
 
 import (
 	"errors"
@@ -6,7 +6,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/cryptopay-dev/gemstone/registry"
+	"github.com/im-kulikov/hermione/registry"
 )
 
 func init() {

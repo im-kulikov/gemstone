@@ -4,14 +4,14 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/cryptopay-dev/gemstone"
-	proto "github.com/cryptopay-dev/gemstone/examples/proto"
+	"github.com/im-kulikov/hermione"
+	proto "github.com/im-kulikov/hermione/examples/proto"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc/reflection"
 )
 
 type Greeter struct {
-	service gemstone.Service
+	service hermione.Service
 }
 
 func (g *Greeter) Hello(ctx context.Context, req *proto.HelloRequest) (res *proto.HelloResponse, err error) {
@@ -21,9 +21,9 @@ func (g *Greeter) Hello(ctx context.Context, req *proto.HelloRequest) (res *prot
 }
 
 func main() {
-	service, err := gemstone.NewService(
-		gemstone.Version("1.0.0"),
-		gemstone.Name("greeter"),
+	service, err := hermione.NewService(
+		hermione.Version("1.0.0"),
+		hermione.Name("greeter"),
 	)
 	if err != nil {
 		fmt.Println(err)

@@ -1,7 +1,7 @@
 package zap
 
 import (
-	"github.com/cryptopay-dev/gemstone/logger"
+	"github.com/im-kulikov/hermione/logger"
 	"go.uber.org/zap"
 )
 
