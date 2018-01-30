@@ -25,7 +25,7 @@ import (
 )
 
 type Greeter struct {
-	service gemstone.Service
+	service hermione.Service
 }
 
 func (g *Greeter) Hello(ctx context.Context, req *proto.HelloRequest) (res *proto.HelloResponse, err error) {
@@ -35,9 +35,9 @@ func (g *Greeter) Hello(ctx context.Context, req *proto.HelloRequest) (res *prot
 }
 
 func main() {
-	service, err := gemstone.NewService(
-		gemstone.Version("1.0.0"),
-		gemstone.Name("greeter"),
+	service, err := hermione.NewService(
+		hermione.Version("1.0.0"),
+		hermione.Name("greeter"),
 	)
 	if err != nil {
 		fmt.Println(err)
@@ -72,7 +72,7 @@ import (
 
 func main() {
 	// Create a new service. Optionally include some options here.
-	service, err := gemstone.NewService()
+	service, err := hermione.NewService()
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(1)
